@@ -5,7 +5,6 @@ import json
 import logging
 import os
 import pstats
-import random
 import re
 import shutil
 import socket
@@ -25,6 +24,7 @@ from unittest.mock import patch
 
 import msgpack
 import pytest
+import secrets
 
 try:
     import llfuse
@@ -183,9 +183,9 @@ def test_disk_full(cmd):
         shutil.rmtree(dir, ignore_errors=True)
         os.mkdir(dir)
         if rnd:
-            count = random.randint(1, count)
+            count = secrets.SystemRandom().randint(1, count)
             if size > 1:
-                size = random.randint(1, size)
+                size = secrets.SystemRandom().randint(1, size)
         for i in range(count):
             fn = os.path.join(dir, "file%03d" % i)
             with open(fn, 'wb') as f:
