@@ -3879,7 +3879,7 @@ class Archiver:
         self._setup_implied_logging(vars(args))
         self._setup_topic_debugging(args)
         if args.show_version:
-            logging.getLogger('borg.output.show-version').info('borgbackup version %s' % __version__)
+            logging.getLogger('borg.output.show-version').info('borgbackup version %s', __version__)
         self.prerun_checks(logger)
         if is_slow_msgpack():
             logger.warning("Using a pure-python msgpack! This will result in lower performance.")
@@ -4027,13 +4027,13 @@ def main():  # pragma: no cover
             rc_logger = logging.getLogger('borg.output.show-rc')
             exit_msg = 'terminating with %s status, rc %d'
             if exit_code == EXIT_SUCCESS:
-                rc_logger.info(exit_msg % ('success', exit_code))
+                rc_logger.info(exit_msg, 'success', exit_code)
             elif exit_code == EXIT_WARNING:
-                rc_logger.warning(exit_msg % ('warning', exit_code))
+                rc_logger.warning(exit_msg, 'warning', exit_code)
             elif exit_code == EXIT_ERROR:
-                rc_logger.error(exit_msg % ('error', exit_code))
+                rc_logger.error(exit_msg, 'error', exit_code)
             else:
-                rc_logger.error(exit_msg % ('abnormal', exit_code or 666))
+                rc_logger.error(exit_msg, 'abnormal', exit_code or 666)
         sys.exit(exit_code)
 
 
