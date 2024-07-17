@@ -10,6 +10,8 @@ import sys
 from .. import __version__
 
 from ..logger import create_logger
+from security import safe_command
+
 logger = create_logger()
 
 
@@ -107,7 +109,7 @@ def popen_with_error_handling(cmd_line: str, log_prefix='', **kwargs):
         return
     logger.debug('%scommand line: %s', log_prefix, command)
     try:
-        return subprocess.Popen(command, **kwargs)
+        return safe_command.run(subprocess.Popen, command, **kwargs)
     except FileNotFoundError:
         logger.error('%sexecutable not found: %s', log_prefix, command[0])
         return

@@ -26,6 +26,7 @@ from datetime import datetime, timedelta
 from itertools import zip_longest
 
 from .logger import create_logger, setup_logging
+from security import safe_command
 
 logger = create_logger()
 
@@ -1510,7 +1511,7 @@ class Archiver:
         env = prepare_subprocess_env(system=True)
         try:
             # we exit with the return code we get from the subprocess
-            return subprocess.call([args.command] + args.args, env=env)
+            return safe_command.run(subprocess.call, [args.command] + args.args, env=env)
         finally:
             # we need to commit the "no change" operation we did to the manifest
             # because it created a new segment file in the repository. if we would
