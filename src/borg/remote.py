@@ -34,6 +34,7 @@ from .logger import create_logger, setup_logging
 from .repository import Repository
 from .version import parse_version, format_version
 from .algorithms.checksums import xxh64
+from security import safe_command
 
 logger = create_logger(__name__)
 
@@ -547,7 +548,7 @@ class RemoteRepository:
         if not testing:
             borg_cmd = self.ssh_cmd(location) + borg_cmd
         logger.debug('SSH command line: %s', borg_cmd)
-        self.p = Popen(borg_cmd, bufsize=0, stdin=PIPE, stdout=PIPE, stderr=PIPE, env=env)
+        self.p = safe_command.run(Popen, borg_cmd, bufsize=0, stdin=PIPE, stdout=PIPE, stderr=PIPE, env=env)
         self.stdin_fd = self.p.stdin.fileno()
         self.stdout_fd = self.p.stdout.fileno()
         self.stderr_fd = self.p.stderr.fileno()
