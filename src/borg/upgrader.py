@@ -271,7 +271,7 @@ class AtticKeyfileKey(KeyfileKey):
         for name in os.listdir(keys_dir):
             filename = os.path.join(keys_dir, name)
             with open(filename, 'r') as fd:
-                line = fd.readline().strip()
+                line = fd.readline(5_000_000).strip()
                 if line and line.startswith(cls.FILE_ID) and line[10:] == repository.id_str:
                     return filename
         raise KeyfileNotFoundError(repository.path, keys_dir)
@@ -320,7 +320,7 @@ class Borg0xxKeyfileKey(KeyfileKey):
         for name in os.listdir(keys_dir):
             filename = os.path.join(keys_dir, name)
             with open(filename, 'r') as fd:
-                line = fd.readline().strip()
+                line = fd.readline(5_000_000).strip()
                 if line and line.startswith(cls.FILE_ID) and line[len(cls.FILE_ID) + 1:] == repository.id_str:
                     return filename
         raise KeyfileNotFoundError(repository.path, keys_dir)
