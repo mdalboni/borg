@@ -1,4 +1,3 @@
-import random
 import time
 
 import pytest
@@ -7,6 +6,7 @@ from ..helpers import daemonize
 from ..platform import get_process_id, process_alive
 from ..locking import TimeoutTimer, ExclusiveLock, Lock, LockRoster, \
                       ADD, REMOVE, SHARED, EXCLUSIVE, LockTimeout, NotLocked, NotMyLock
+import secrets
 
 ID1 = "foo", 1, 1
 ID2 = "bar", 2, 2
@@ -18,7 +18,7 @@ def free_pid():
     host, pid, tid = get_process_id()
     while True:
         # PIDs are often restricted to a small range. On Linux the range >32k is by default not used.
-        pid = random.randint(33000, 65000)
+        pid = secrets.SystemRandom().randint(33000, 65000)
         if not process_alive(host, pid, tid):
             return pid
 
